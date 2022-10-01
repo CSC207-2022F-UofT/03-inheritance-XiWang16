@@ -5,6 +5,8 @@
  * 1. Introduction to Java helpful.
  */
 
+import java.util.ArrayList;
+
 public abstract class Bag {
     /*
      * TODO: Create the following private instance variables
@@ -13,6 +15,11 @@ public abstract class Bag {
      *       - an int named capacity
      *       - an array of Strings named contents
      */
+    private String color;
+    private int numberOfContents;
+    private int capacity;
+    private String[] contents;
+
 
 
 
@@ -26,6 +33,12 @@ public abstract class Bag {
      * be empty (e.g. numberOfContents is 0 and an empty String array for
      * its contents.)
      */
+    public Bag(String color, int capacity) {
+        this.color = color;
+        this.capacity = capacity;
+        this.numberOfContents = 0;
+        this.contents = new String[]{};
+    }
 
 
 
@@ -37,6 +50,15 @@ public abstract class Bag {
      *           - getNumberOfContents
      *           - getCapacity
      */
+    public String getColor() {
+        return this.color;
+    }
+    public int getNumberOfContents() {
+        return this.contents.length;
+    }
+    public int getCapacity() {
+        return this.capacity;
+    }
 
 
 
@@ -45,6 +67,9 @@ public abstract class Bag {
      * TODO: Create a setter function called setColor which sets the
      *       color of this bag to the given color.
      */
+    public void setColor(String newColor) {
+        this.color = newColor;
+    }
 
 
 
@@ -60,12 +85,28 @@ public abstract class Bag {
      *       This method should return true if the item was added
      *       and false otherwise.
      */
+    public boolean addItem(String item) {
+        if (this.getNumberOfContents() < this.getCapacity()) {
+            ArrayList<String> updated = new ArrayList<String>();
+            int i;
+            for (i = 0; i < this.getNumberOfContents(); i++) {
+                updated.add(this.contents[i]);
+            }
+            updated.add(item);
+            this.contents = updated.toArray(new String[0]);
+            this.capacity += 1;
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 
 
 
 
 
-    /**
+    /*
      * TODO: Create a method called popItem that returns a String.
      *       The string should be the last item added to this Bag
      *       and the item should be removed from this Bag.
@@ -73,8 +114,23 @@ public abstract class Bag {
      *
      * If there are no items in this Bag, return null.
      *
-     * @return
      */
+    public String popItem() {
+        if (this.getNumberOfContents() > 0) {
+            ArrayList<String> updated = new ArrayList<>();
+            int i;
+            for (i = 0; i < this.getNumberOfContents() - 1; i++) {
+                updated.add(this.contents[i]);
+            }
+            String popped = this.contents[this.getNumberOfContents() - 1];
+            this.contents = updated.toArray(new String[0]);
+            this.capacity -= 1;
+            return popped;
+        }
+        else {
+            return null;
+        }
+    }
 
 
 
@@ -87,15 +143,15 @@ public abstract class Bag {
      */
     public void increaseCapacity(int n) {
         // TODO: Implement this method.
+        this.capacity += n;
 
     }
 
-    /**
+    /*
      * Return the details of this Bag.
      * This method requires you to have created the private
      * instance variables mentioned above.
      *
-     * @return
      */
     @Override
     public String toString() {
